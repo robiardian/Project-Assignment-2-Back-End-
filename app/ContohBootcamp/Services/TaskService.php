@@ -1,3 +1,5 @@
+<?php
+
 namespace App\Services;
 
 use App\Models\Task;
@@ -22,14 +24,14 @@ class TaskService
         return $this->taskRepository->assignTask($taskId, $userId);
     }
 
-    public function unassignTask($taskId, $userId)
+    public function unassignTask($taskId)
     {
-        return $this->taskRepository->unassignTask($taskId, $userId);
+        return $this->taskRepository->unassignTask($taskId);
     }
 
-    public function addSubtask($taskId, $subtaskData)
+    public function createSubtask($taskId, $subtaskData)
     {
-        return $this->taskRepository->addSubtask($taskId, $subtaskData);
+        return $this->taskRepository->createSubtask($taskId, $subtaskData);
     }
 
     public function deleteSubtask($taskId, $subtaskId)
@@ -37,6 +39,3 @@ class TaskService
         return $this->taskRepository->deleteSubtask($taskId, $subtaskId);
     }
 }
-
-
-

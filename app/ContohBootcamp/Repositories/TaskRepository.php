@@ -1,3 +1,5 @@
+<?php
+
 namespace App\Repositories;
 
 use App\Models\Task;
@@ -13,27 +15,40 @@ class TaskRepository
 
     public function delete($taskId)
     {
-        return $this->model->destroy($taskId);
+        $task = $this->model->findOrFail($taskId);
+        return $task->delete();
     }
 
     public function assignTask($taskId, $userId)
     {
-        // Implement logic to assign task
+        $task = Task::findOrFail($taskId);
+        $task->assigned_to = $userId;
+        $task->save();
+
+        return $task;
     }
 
-    public function unassignTask($taskId, $userId)
+
+    public function unassignTask($taskId)
     {
-        // Implement logic to unassign task
+        $task = Task::findOrFail($taskId);
+        $task->assigned_to = null;
+        $task->save();
+    
+        return $task;
     }
 
-    public function addSubtask($taskId, $subtaskData)
+    public function createSubtask($taskId, $subtaskData)
     {
-        // Implement logic to add subtask
+        $task = $this->model->findOrFail($taskId);
+        $subtask = $task->subtasks()->create($subtaskData);
+        return $subtask;
     }
 
     public function deleteSubtask($taskId, $subtaskId)
     {
-        // Implement logic to delete subtask
+        $task = $this->model->findOrFail($taskId);
+        $subtask = $task->subtasks()->findOrFail($subtaskId);
+        return $subtask->delete();
     }
 }
-
