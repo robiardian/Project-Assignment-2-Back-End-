@@ -1,57 +1,39 @@
-<?php
-namespace App\ContohBootcamp\Repositories;
+namespace App\Repositories;
 
-use App\Helpers\MongoModel;
+use App\Models\Task;
 
 class TaskRepository
 {
-	private MongoModel $tasks;
-	public function __construct()
-	{
-		$this->tasks = new MongoModel('tasks');
-	}
+    protected $model;
 
-	/**
-	 * Untuk mengambil semua tasks
-	 */
-	public function getAll()
-	{
-		$tasks = $this->tasks->get([]);
-		return $tasks;
-	}
+    public function __construct(Task $model)
+    {
+        $this->model = $model;
+    }
 
-	/**
-	 * Untuk mendapatkan task bedasarkan id
-	 *  */
-	public function getById(string $id)
-	{
-		$task = $this->tasks->find(['_id'=>$id]);
-		return $task;
-	}
+    public function delete($taskId)
+    {
+        return $this->model->destroy($taskId);
+    }
 
-	/**
-	 * Untuk membuat task
-	 */
-	public function create(array $data)
-	{
-		$dataSaved = [
-			'title'=>$data['title'],
-			'description'=>$data['description'],
-			'assigned'=>null,
-			'subtasks'=> [],
-			'created_at'=>time()
-		];
+    public function assignTask($taskId, $userId)
+    {
+        // Implement logic to assign task
+    }
 
-		$id = $this->tasks->save($dataSaved);
-		return $id;
-	}
+    public function unassignTask($taskId, $userId)
+    {
+        // Implement logic to unassign task
+    }
 
-	/**
-	 * Untuk menyimpan task baik untuk membuat baru atau menyimpan dengan struktur bson secara bebas
-	 *  */
-	public function save(array $editedData)
-	{
-		$id = $this->tasks->save($editedData);
-		return $id;
-	}
+    public function addSubtask($taskId, $subtaskData)
+    {
+        // Implement logic to add subtask
+    }
+
+    public function deleteSubtask($taskId, $subtaskId)
+    {
+        // Implement logic to delete subtask
+    }
 }
+

@@ -1,59 +1,42 @@
-<?php
+namespace App\Services;
 
-namespace App\ContohBootcamp\Services;
+use App\Models\Task;
+use App\Repositories\TaskRepository;
 
-use App\ContohBootcamp\Repositories\TaskRepository;
+class TaskService
+{
+    protected $taskRepository;
 
-class TaskService {
-	private TaskRepository $taskRepository;
+    public function __construct(TaskRepository $taskRepository)
+    {
+        $this->taskRepository = $taskRepository;
+    }
 
-	public function __construct() {
-		$this->taskRepository = new TaskRepository();
-	}
+    public function deleteTask($taskId)
+    {
+        return $this->taskRepository->delete($taskId);
+    }
 
-	/**
-	 * NOTE: untuk mengambil semua tasks di collection task
-	 */
-	public function getTasks()
-	{
-		$tasks = $this->taskRepository->getAll();
-		return $tasks;
-	}
+    public function assignTask($taskId, $userId)
+    {
+        return $this->taskRepository->assignTask($taskId, $userId);
+    }
 
-	/**
-	 * NOTE: menambahkan task
-	 */
-	public function addTask(array $data)
-	{
-		$taskId = $this->taskRepository->create($data);
-		return $taskId;
-	}
+    public function unassignTask($taskId, $userId)
+    {
+        return $this->taskRepository->unassignTask($taskId, $userId);
+    }
 
-	/**
-	 * NOTE: UNTUK mengambil data task
-	 */
-	public function getById(string $taskId)
-	{
-		$task = $this->taskRepository->getById($taskId);
-		return $task;
-	}
+    public function addSubtask($taskId, $subtaskData)
+    {
+        return $this->taskRepository->addSubtask($taskId, $subtaskData);
+    }
 
-	/**
-	 * NOTE: untuk update task
-	 */
-	public function updateTask(array $editTask, array $formData)
-	{
-		if(isset($formData['title']))
-		{
-			$editTask['title'] = $formData['title'];
-		}
-
-		if(isset($formData['description']))
-		{
-			$editTask['description'] = $formData['description'];
-		}
-
-		$id = $this->taskRepository->save( $editTask);
-		return $id;
-	}
+    public function deleteSubtask($taskId, $subtaskId)
+    {
+        return $this->taskRepository->deleteSubtask($taskId, $subtaskId);
+    }
 }
+
+
+
